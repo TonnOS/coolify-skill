@@ -94,6 +94,6 @@ See [references/endpoints.md](references/endpoints.md) for complete endpoint doc
 
 ## References
 
-- **Coolify GitHub:** https://github.com/coollabsio/coolify
+- **Coolify Repository:** https://github.com/coollabsio/coolify
 - **API Documentation:** https://github.com/coollabsio/coolify-docs/tree/v4.x/docs/api-reference
-- **Official Docs:** https://coolify.io/docs
+- **Official Docs:** https://coolify.io/docs/api-reference/authorization
