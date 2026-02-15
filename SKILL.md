@@ -91,3 +91,9 @@ Use the helper script for common operations:
 ## API Reference
 
 See [references/endpoints.md](references/endpoints.md) for complete endpoint documentation.
+
+## References
+
+- **Coolify GitHub:** https://github.com/coollabsio/coolify
+- **API Documentation:** https://github.com/coollabsio/coolify-docs/tree/v4.x/docs/api-reference
+- **Official Docs:** https://coolify.io/docs
