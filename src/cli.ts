@@ -518,14 +518,14 @@ async function runCommand(client: CoolifyClient, cmd: string, args: string[]): P
       if (error.statusCode) {
         console.error(`Status: ${error.statusCode}`);
       }
-      process.exit(1);
+      process.exit(3);  // API error
     }
     if (error instanceof z.ZodError) {
       console.error("Validation error:");
       for (const issue of error.issues) {
         console.error(`  - ${issue.path.join(".")}: ${issue.message}`);
       }
-      process.exit(1);
+      process.exit(2);  // Validation error
     }
     throw error;
   }
