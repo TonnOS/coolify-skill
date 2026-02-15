@@ -5,7 +5,7 @@ description: Manage Coolify PaaS instances via API - deploy applications, manage
 
 # Coolify API Skill
 
-Manage Coolify PaaS instances via the REST API.
+Manage Coolify PaaS instances via the REST API using TypeScript.
 
 ## Configuration
 
@@ -23,70 +23,118 @@ Generate a token in Coolify UI: **Keys & Tokens → API tokens → Create New To
 - `read:sensitive` — Read + see sensitive data (passwords, keys)
 - `*` — Full access (read, write, deploy, delete)
 
+## Installation
+
+```bash
+npm install
+npm run build
+```
+
 ## Quick Reference
 
-All endpoints use `GET /api/v1/...` with `Authorization: Bearer <token>`.
-
-| Resource | Endpoints |
-|----------|-----------|
-| **Health** | `GET /health`, `GET /api/v1/health` |
-| **Servers** | `GET /api/v1/servers`, `GET /api/v1/servers/{uuid}` |
-| **Applications** | `GET /api/v1/applications`, `POST /api/v1/applications/...` |
-| **Databases** | `GET /api/v1/databases`, `POST /api/v1/databases/{type}` |
-| **Services** | `GET /api/v1/services`, `POST /api/v1/services` |
-| **Projects** | `GET /api/v1/projects`, `POST /api/v1/projects` |
-| **Deploy** | `POST /api/v1/deploy`, `GET /api/v1/deployments` |
-
-## Common Operations
-
-### Check API Health
-```bash
-curl -s "${COOLIFY_URL}/api/v1/health"
-```
-
-### List All Servers
-```bash
-curl -s -H "Authorization: Bearer ${COOLIFY_TOKEN}" \
-  "${COOLIFY_URL}/api/v1/servers" | jq
-```
-
-### List Applications
-```bash
-curl -s -H "Authorization: Bearer ${COOLIFY_TOKEN}" \
-  "${COOLIFY_URL}/api/v1/applications" | jq
-```
-
-### Deploy Application
-```bash
-curl -X POST -H "Authorization: Bearer ${COOLIFY_TOKEN}" \
-  "${COOLIFY_URL}/api/v1/applications/${UUID}/start"
-```
-
-### Get Application Logs
-```bash
-curl -s -H "Authorization: Bearer ${COOLIFY_TOKEN}" \
-  "${COOLIFY_URL}/api/v1/applications/${UUID}/logs" | jq
-```
-
-### Create Database (PostgreSQL)
-```bash
-curl -X POST -H "Authorization: Bearer ${COOLIFY_TOKEN}" \
-  -H "Content-Type: application/json" \
-  -d '{"server_uuid":"...","project_uuid":"...","environment_name":"production"}' \
-  "${COOLIFY_URL}/api/v1/databases/postgresql"
-```
-
-## Scripts
-
-Use the helper script for common operations:
+### CLI Commands
 
 ```bash
-./scripts/coolify.sh servers
-./scripts/coolify.sh apps
-./scripts/coolify.sh deploy <app-uuid>
-./scripts/coolify.sh logs <app-uuid>
-./scripts/coolify.sh databases
+# System
+coolify health              # Check API health
+coolify version             # Get Coolify version
+
+# Projects
+coolify projects            # List all projects
+coolify project <uuid>      # Get project details
+coolify project-create <name> [description]
+coolify project-delete <uuid>
+coolify environments <project-uuid>
+coolify environment-create <project-uuid> <name>
+
+# Servers
+coolify servers             # List all servers
+coolify server <uuid>       # Get server details
+coolify server-validate <uuid>
+
+# Applications
+coolify apps                # List all applications
+coolify app <uuid>          # Get application details
+coolify app-create <project-uuid> <env> <name> [build-pack]
+coolify app-delete <uuid>
+coolify start <uuid>        # Start application
+coolify stop <uuid>         # Stop application
+coolify restart <uuid>      # Restart application
+coolify deploy <uuid>       # Deploy application
+coolify logs <uuid>         # Get application logs
+coolify app-envs <uuid>     # List environment variables
+
+# Databases
+coolify databases           # List all databases
+coolify database <uuid>    # Get database details
+coolify db-create <type> <server-uuid> <project-uuid> <env> <name>
+coolify db-delete <uuid>
+coolify db-start <uuid>
+coolify db-stop <uuid>
+
+# Services
+coolify services            # List all services
+coolify service <uuid>      # Get service details
+coolify service-delete <uuid>
+
+# Deployments
+coolify deployments         # List all deployments
+coolify deployment <uuid>  # Get deployment details
+coolify deployment-cancel <uuid>
+
+# Other
+coolify resources           # List all resources
+coolify teams               # List teams
+coolify ssh-keys            # List SSH keys
+coolify github-apps         # List GitHub apps
+coolify cloud-tokens        # List cloud tokens
 ```
+
+### TypeScript API
+
+```typescript
+import { createClient } from "./coolify";
+import { Application, Deployment } from "./types";
+
+const client = createClient();
+
+// List applications
+const apps = await client.getApplications();
+
+// Deploy
+const deployment = await client.deploy({
+  resourceUuid: "uuid",
+  resourceType: "application",
+});
+
+// Control application
+await client.startApplication("uuid");
+await client.stopApplication("uuid");
+await client.restartApplication("uuid");
+
+// Logs
+const logs = await client.getApplicationLogs("uuid");
+
+// Databases
+const db = await client.createDatabase("postgresql", {
+  serverUuid: "...",
+  projectUuid: "...",
+  environmentName: "production",
+  name: "mydb",
+});
+```
+
+### Database Types
+
+Supported database types:
+- `postgresql`
+- `mysql`
+- `mariadb`
+- `mongodb`
+- `redis`
+- `clickhouse`
+- `dragonfly`
+- `keydb`
 
 ## API Reference
 

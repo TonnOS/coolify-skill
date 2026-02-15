@@ -1,0 +1,30 @@
+{
+  "name": "coolify-skill",
+  "version": "1.0.0",
+  "description": "TypeScript skill for managing Coolify PaaS instances",
+  "main": "dist/coolify.js",
+  "bin": {
+    "coolify": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/cli.ts",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "coolify",
+    "paas",
+    "api",
+    "openclaw"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.33",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
