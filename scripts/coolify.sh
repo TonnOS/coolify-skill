@@ -4,6 +4,13 @@
 
 set -e
 
+# Check dependencies
+if ! command -v jq &> /dev/null; then
+    echo "Error: jq is required but not installed"
+    echo "Install with: apt-get install jq (Debian/Ubuntu) or brew install jq (macOS)"
+    exit 1
+fi
+
 # Load environment
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILL_DIR="$(dirname "$SCRIPT_DIR")"
