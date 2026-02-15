@@ -41,6 +41,12 @@ Generate a token in Coolify UI: **Keys & Tokens → API tokens → Create New To
 
 See [references/endpoints.md](references/endpoints.md) for complete API documentation.
 
+## References
+
+- **Coolify Repository:** https://github.com/coollabsio/coolify
+- **API Documentation:** https://github.com/coollabsio/coolify-docs/tree/v4.x/docs/api-reference
+- **Official Docs:** https://coolify.io/docs/api-reference/authorization
+
 ## License
 
 MIT
